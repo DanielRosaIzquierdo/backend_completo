@@ -7,10 +7,7 @@
   },
   "host": "",
   "basePath": "/api/v1/ligas",
-  "schemes": [
-    "http",
-    "https"
-  ],
+  "schemes": [],
   "paths": {
     "/all": {
       "get": {

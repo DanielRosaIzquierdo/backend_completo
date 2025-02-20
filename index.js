@@ -18,10 +18,14 @@ const v1Router = require('./v1/routes/routes')
 app.use('/api/v1/ligas', v1Router);
 
 let apiHost = process.env.API_HOST || 'localhost';
+let schema = 'https';
 
-if (apiHost === 'localhost') apiHost = `${apiHost}:${PORT}`
-
+if (apiHost === 'localhost') {
+    apiHost = `${apiHost}:${PORT}`
+    schema = 'http'
+}
 swaggerDocument.host = apiHost;
+swaggerDocument.schemes = [schema];
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

@@ -1,0 +1,408 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API Ligas Europeas",
+    "description": "Documentación de la API",
+    "version": "1.0.0"
+  },
+  "host": "",
+  "basePath": "/api/v1/ligas",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/all": {
+      "get": {
+        "description": "Obtiene una lista de ligas",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "Devuelve una liga por página"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/equipos": {
+      "get": {
+        "description": "Obtiene una lista de equipos",
+        "parameters": [
+          {
+            "name": "jugadores",
+            "in": "query",
+            "type": "string",
+            "description": "Si es true, devuelve los jugadores de cada equipo, si no es true, solo devuelve los equipos"
+          },
+          {
+            "name": "nombre",
+            "in": "query",
+            "type": "string",
+            "description": "Busca los equipos que contengan los caracteres especificados en su nombre"
+          },
+          {
+            "name": "capacidadgt",
+            "in": "query",
+            "type": "string",
+            "description": "Filtra si la capacidad del estadio del equipo es mayor que la cantidad indicada"
+          },
+          {
+            "name": "capacidadlt",
+            "in": "query",
+            "type": "string",
+            "description": "Filtra si la capacidad del estadio del equipo es menor que la cantidad indicada"
+          },
+          {
+            "name": "aniofundacion",
+            "in": "query",
+            "type": "string",
+            "description": "Ordena según el año de fundación del club. 1: Orden ascendente. -1: Orden descendente"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "Cada página devuelve 5 equipos"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/jugadores": {
+      "get": {
+        "description": "Obtiene una lista de jugadores",
+        "parameters": [
+          {
+            "name": "nombre",
+            "in": "query",
+            "type": "string",
+            "description": "Busca los jugadores que contengan los caracteres especificados en su nombre"
+          },
+          {
+            "name": "nacionalidad",
+            "in": "query",
+            "type": "string",
+            "description": "Busca por nacionalidad"
+          },
+          {
+            "name": "posicion",
+            "in": "query",
+            "type": "string",
+            "description": "Busca por posición. Posiciones: Portero | Defensa | Centrocampista | Delantero"
+          },
+          {
+            "name": "anionacimiento",
+            "in": "query",
+            "type": "string",
+            "description": "Ordena según el año de nacimiento. 1: Orden ascendente. -1: Orden descendente"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "type": "string",
+            "description": "Cada página devuelve 15 jugadores"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/": {
+      "post": {
+        "description": "Login. Obtiene un token que permite realizar operaciones de actualización en la base de datos",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "example": "any"
+                },
+                "password": {
+                  "example": "any"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/{ligaId}": {
+      "post": {
+        "description": "Añade un nuevo equipo a una liga",
+        "parameters": [
+          {
+            "name": "ligaId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "IDs de liga válidos: bundesliga | laliga | ligue_one | premier_league | serie_a"
+          },
+          {
+            "name": "x-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nombre": {
+                  "type": "string",
+                  "example": "AC Milan"
+                },
+                "anio_fundacion": {
+                  "type": "integer",
+                  "example": 1899
+                },
+                "ciudad": {
+                  "type": "string",
+                  "example": "Milan"
+                },
+                "pais": {
+                  "type": "string",
+                  "example": "Italia"
+                },
+                "estadio": {
+                  "type": "string",
+                  "example": "San Siro"
+                },
+                "capacida_estadio": {
+                  "type": "integer",
+                  "example": 80018
+                },
+                "jugadores": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "nombre": {
+                        "type": "string",
+                        "example": "Gianluigi Donnarumma"
+                      },
+                      "posicion": {
+                        "type": "string",
+                        "example": "Portero"
+                      },
+                      "nacionalidad": {
+                        "type": "string",
+                        "example": "Italia"
+                      },
+                      "anio_nacimiento": {
+                        "type": "integer",
+                        "example": 1999
+                      },
+                      "numero": {
+                        "type": "integer",
+                        "example": 99
+                      }
+                    }
+                  }
+                },
+                "coach": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 5
+                    },
+                    "nombre": {
+                      "type": "string",
+                      "example": "Stefano Pioli"
+                    },
+                    "nacionalidad": {
+                      "type": "string",
+                      "example": "Italia"
+                    },
+                    "anio_nacimiento": {
+                      "type": "integer",
+                      "example": 1965
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "patch": {
+        "description": "Actualiza cualquier campo de una liga",
+        "parameters": [
+          {
+            "name": "ligaId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "IDs de liga válidos: bundesliga | laliga | ligue_one | premier_league | serie_a"
+          },
+          {
+            "name": "x-token",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "bundesliga"
+                },
+                "nombre": {
+                  "type": "string",
+                  "example": "Bundesliga"
+                },
+                "anio_fundacion": {
+                  "type": "integer",
+                  "example": 1963
+                },
+                "numero_equipos": {
+                  "type": "integer",
+                  "example": 18
+                },
+                "historial_campeones": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "equipo": {
+                        "type": "string",
+                        "example": "Bayern Múnich"
+                      },
+                      "anio": {
+                        "type": "integer",
+                        "example": 2023
+                      }
+                    }
+                  }
+                },
+                "maximo_goleador_historico": {
+                  "type": "string",
+                  "example": "Gerd Müller"
+                },
+                "club_mas_exitoso": {
+                  "type": "string",
+                  "example": "Bayern Múnich"
+                },
+                "pais": {
+                  "type": "string",
+                  "example": "Alemania"
+                },
+                "equipos": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/{equipoId}": {
+      "delete": {
+        "description": "Eliminar cualquier equipo por su id",
+        "parameters": [
+          {
+            "name": "equipoId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "x-token",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  }
+}

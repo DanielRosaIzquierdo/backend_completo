@@ -1,0 +1,8 @@
+# Node modules
+node_modules/
+
+# .env file for environment variables
+.env
+
+# Firebase key
+fbkey.json

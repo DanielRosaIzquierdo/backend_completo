@@ -19,7 +19,7 @@ app.use('/api/v1/ligas', v1Router);
 
 let apiHost = process.env.API_HOST || 'localhost';
 
-apiHost = `${apiHost}:${PORT}`
+if (apiHost === 'localhost') apiHost = `${apiHost}:${PORT}`
 
 swaggerDocument.host = apiHost;
 
